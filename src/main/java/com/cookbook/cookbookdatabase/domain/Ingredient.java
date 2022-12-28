@@ -20,7 +20,7 @@ public class Ingredient {
 	private Long ingredientId;
 	
 	@Column(nullable = false)
-	private String name;
+	private String ingredientName;
 	
 	@ManyToOne
 	@JoinColumn(name = "recipeId")
@@ -34,9 +34,9 @@ public class Ingredient {
 	
 	public Ingredient() {}
 
-	public Ingredient(String name, Amount amount, Recipe recipe) {
+	public Ingredient(String ingredientName, Amount amount, Recipe recipe) {
 		super();
-		this.name = name;
+		this.ingredientName = ingredientName;
 		this.amount = amount;
 		this.recipe = recipe;
 	}
@@ -49,12 +49,12 @@ public class Ingredient {
 		this.ingredientId = ingredientId;
 	}
 
-	public String getName() {
-		return name;
+	public String getIngredientName() {
+		return ingredientName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setIngredientName(String name) {
+		this.ingredientName = name;
 	}
 
 	public Recipe getRecipe() {

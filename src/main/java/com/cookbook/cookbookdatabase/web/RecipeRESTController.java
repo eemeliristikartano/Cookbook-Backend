@@ -70,7 +70,7 @@ public class RecipeRESTController {
 			//Using setters to set values to the new recipe.
 			//:TODO User is randomized for now. Later it should be a real user from client side.
 			recipe.setUser(userRepo.findById(rand.nextLong(5)).get());
-			recipe.setName(jsonRecipe.get("recipeName").getAsString());
+			recipe.setRecipeName(jsonRecipe.get("recipeName").getAsString());
 			recipe.setInstructions(jsonRecipe.get("instructions").getAsString());
 			recipe.setSource(jsonRecipe.get("source").getAsString());
 			recipe.setDateCreated(LocalDateTime.now());
@@ -103,7 +103,7 @@ public class RecipeRESTController {
 				amountRepo.save(amount);
 				
 				// Using setters to set values for the ingredient.
-				ingredient.setName(ingredientFromJson);
+				ingredient.setIngredientName(ingredientFromJson);
 				ingredient.setAmount(amount);
 				// Earlier saved recipe for the new ingredient.
 				ingredient.setRecipe(recipe);
@@ -117,6 +117,11 @@ public class RecipeRESTController {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	
+	@PostMapping(value = "/deleterecipe")
+	public @ResponseBody void deleteRecipe(@RequestBody Long recipeId) {
+		recipeRepo.deleteById(recipeId);
 	}
 
 }

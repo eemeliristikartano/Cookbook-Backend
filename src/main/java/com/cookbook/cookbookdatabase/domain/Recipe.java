@@ -24,7 +24,7 @@ public class Recipe {
 	private Long recipeId;
 	
 	@Column(nullable = true)
-	private String name;
+	private String recipeName;
 	
 	@Column(nullable = true, length = 2000)
 	private String instructions;
@@ -54,10 +54,10 @@ public class Recipe {
 	
 	public Recipe() {}
 
-	public Recipe(String name, String instructions, LocalDateTime dateCreated, LocalDateTime dateEdited, String source,
+	public Recipe(String recipeName, String instructions, LocalDateTime dateCreated, LocalDateTime dateEdited, String source,
 			User user, Category category) {
 		super();
-		this.name = name;
+		this.recipeName = recipeName;
 		this.instructions = instructions;
 		this.dateCreated = dateCreated;
 		this.dateEdited = dateEdited;
@@ -74,12 +74,12 @@ public class Recipe {
 		this.recipeId = recipeId;
 	}
 
-	public String getName() {
-		return name;
+	public String getRecipeName() {
+		return recipeName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRecipeName(String name) {
+		this.recipeName = name;
 	}
 
 	public String getInstructions() {
