@@ -57,7 +57,7 @@ public class CookbookdatabaseApplication {
 			Category vegan = new Category("Vegan");
 			Category vegetarian = new Category("Vegetarian");
 			Category meat = new Category("Meat");
-			Category emptyCategory = new Category("");
+			Category emptyCategory = new Category("None");
 			List<Category> categories = List.of(vegan, vegetarian, meat, emptyCategory);
 			categoryRepo.saveAll(categories);
 			
@@ -66,7 +66,7 @@ public class CookbookdatabaseApplication {
 			Unit tl = new Unit("tl");
 			Unit l = new Unit("l");
 			Unit g = new Unit("g");
-			Unit emptyUnit = new Unit("");
+			Unit emptyUnit = new Unit("None");
 			List<Unit> units = List.of(dl, tl, l, g, emptyUnit);
 			unitRepo.saveAll(units);
 					

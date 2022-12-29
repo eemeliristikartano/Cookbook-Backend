@@ -91,11 +91,11 @@ public class RecipeRESTController {
 					category = categoryRepo.findById(jsonRecipe.get("category").getAsJsonObject().get("categoryId").getAsLong()).get();
 				} else {
 					// Else set empty value from database for category.
-					category = categoryRepo.findByName("");
+					category = categoryRepo.findByName("None");
 				}
 			} else {
 				// Else set empty value from database for category.
-				category = categoryRepo.findByName("");
+				category = categoryRepo.findByName("None");
 			}
 			
 			recipe.setCategory(category);
@@ -121,11 +121,11 @@ public class RecipeRESTController {
 						unit = unitRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong()).get();
 					} else {
 						// Else set empty value from database for unit.
-						unit = unitRepo.findByUnit("");
+						unit = unitRepo.findByUnit("None");
 					}
 				} else {
 					// Else set empty value from database for unit.
-					unit = unitRepo.findByUnit("");
+					unit = unitRepo.findByUnit("None");
 				}
 
 				
