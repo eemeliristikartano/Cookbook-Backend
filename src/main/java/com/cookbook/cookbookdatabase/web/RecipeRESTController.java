@@ -81,7 +81,6 @@ public class RecipeRESTController {
 			recipe.setSource(jsonRecipe.get("source").getAsString());
 			recipe.setDateCreated(LocalDateTime.now());
 			
-			//:TODO There should be an empty value in database for a category to prevent null-values. 
 			//:TODO There should be an empty value in database for an unit to prevent null-values.
 			
 			// Checking if the category is an object. 
@@ -90,8 +89,15 @@ public class RecipeRESTController {
 				if (jsonRecipe.get("category").getAsJsonObject().get("categoryId").getAsLong() != -1L) {
 					// Find category by categoryId.
 					category = categoryRepo.findById(jsonRecipe.get("category").getAsJsonObject().get("categoryId").getAsLong()).get();
+				} else {
+					// Else set empty value from database for category.
+					category = categoryRepo.findByName("");
 				}
+			} else {
+				// Else set empty value from database for category.
+				category = categoryRepo.findByName("");
 			}
+			
 			recipe.setCategory(category);
 			
 			recipeRepo.save(recipe);		
@@ -113,7 +119,13 @@ public class RecipeRESTController {
 					if (ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong() != -1L) {
 						// Find category by unitId.
 						unit = unitRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong()).get();
+					} else {
+						// Else set empty value from database for unit.
+						unit = unitRepo.findByUnit("");
 					}
+				} else {
+					// Else set empty value from database for unit.
+					unit = unitRepo.findByUnit("");
 				}
 
 				

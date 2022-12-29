@@ -57,8 +57,8 @@ public class CookbookdatabaseApplication {
 			Category vegan = new Category("Vegan");
 			Category vegetarian = new Category("Vegetarian");
 			Category meat = new Category("Meat");
-			Category empty = new Category("");
-			List<Category> categories = List.of(vegan, vegetarian, meat);
+			Category emptyCategory = new Category("");
+			List<Category> categories = List.of(vegan, vegetarian, meat, emptyCategory);
 			categoryRepo.saveAll(categories);
 			
 			//Units
@@ -66,11 +66,12 @@ public class CookbookdatabaseApplication {
 			Unit tl = new Unit("tl");
 			Unit l = new Unit("l");
 			Unit g = new Unit("g");
-			List<Unit> units = List.of(dl, tl, l, g);
+			Unit emptyUnit = new Unit("");
+			List<Unit> units = List.of(dl, tl, l, g, emptyUnit);
 			unitRepo.saveAll(units);
 					
 			//First example recipe
-			Recipe testRecipe = new Recipe("Test", "Testing", LocalDateTime.now(), LocalDateTime.now().plusDays(14), "example.com", userAdam, null);
+			Recipe testRecipe = new Recipe("Test", "Testing", LocalDateTime.now(), LocalDateTime.now().plusDays(14), "example.com", userAdam, emptyCategory);
 			recipeRepo.save(testRecipe);
 			ingredientRepo.save(new Ingredient("tee", new Amount("2", g), testRecipe));
 			
