@@ -58,6 +58,13 @@ public class RecipeRESTController {
 		return recipeRepo.findAll();
 	}
 	
+	
+	@PostMapping(value = "/deleterecipe")
+	public @ResponseBody void deleteRecipe(@RequestBody Long recipeId) {
+		recipeRepo.deleteById(recipeId);
+	}
+
+	
 	/*
 	 * This method is used for saving a new recipe.
 	 */
@@ -157,9 +164,151 @@ public class RecipeRESTController {
 		}
 	}
 	
-	@PostMapping(value = "/deleterecipe")
-	public @ResponseBody void deleteRecipe(@RequestBody Long recipeId) {
-		recipeRepo.deleteById(recipeId);
-	}
+	/*
+	 * This method updates existing recipe, ingredient, amount and unit.
+	 */
+	
+	@PostMapping(value = "/updaterecipe") 
+	public @ResponseBody void updateRecipe(@RequestBody String recipeFromFront) {
+		try {
+			//Parses jsonobject from a string.
+			JsonObject jsonRecipe = JsonParser.parseString(recipeFromFront).getAsJsonObject();
+			Category category = null;
+			
+			//Empty object for recipe.
+			Recipe recipe = recipeRepo.findById(jsonRecipe.get("recipeId").getAsLong()).get();
+			//Using setters to set values to the new recipe.
+			recipe.setRecipeName(jsonRecipe.get("recipeName").getAsString());
+			
+			recipe.setInstructions(jsonRecipe.get("instructions").getAsString());
+			recipe.setSource(jsonRecipe.get("source").getAsString());
+			recipe.setDateEdited(LocalDateTime.now());
+						
+			// Checking if the category is an object. 
+			if (jsonRecipe.get("category").isJsonObject()) {
+				// Checking if a categoryId does not equal -1L.
+				if (jsonRecipe.get("category").getAsJsonObject().get("categoryId").getAsLong() != -1L) {
+					// Find category by categoryId.
+					category = categoryRepo.findById(jsonRecipe.get("category").getAsJsonObject().get("categoryId").getAsLong()).get();
+				} else {
+					// Else set empty value from database for category.
+					category = categoryRepo.findByName("None");
+				}
+			} else {
+				// Else set empty value from database for category.
+				category = categoryRepo.findByName("None");
+			}
+			
+			recipe.setCategory(category);
+			
+			recipeRepo.save(recipe);		
+			
+			JsonArray ingredients = jsonRecipe.get("ingredients").getAsJsonArray();
+			// Looping through the ingredients.
+			for (int i = 0; i < ingredients.size(); i++) {
+				// If there is a new ingredient
+				if (ingredients.get(i).getAsJsonObject().get("ingredientId").getAsLong() == -1L) {
+					Ingredient ingredient = new Ingredient();
+					Amount amount = new Amount();
+					Unit unit = null;
+					//Gets ingredient from array
+					String ingredientFromJson = ingredients.get(i).getAsJsonObject().get("ingredientName").getAsString();
+					//Gets amount from array
+					String quantityFromJson = ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("quantity").getAsString();
+					
+					// Checking if the unit is an object. 
+					if (ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").isJsonObject()) {
+						// Checking if a unitId does not equal -1L.
+						if (ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong() != -1L) {
+							// Find category by unitId.
+							unit = unitRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong()).get();
+						} else {
+							// Else set empty value from database for unit.
+							unit = unitRepo.findByUnit("None");
+						}
+					} else {
+						// Else set empty value from database for unit.
+						unit = unitRepo.findByUnit("None");
+					}
 
+					
+					// Checking if values are blank. If they're blank, there is no need to save them.
+					if (ingredientFromJson.isBlank() && quantityFromJson.isBlank()) {
+						continue;					
+					} 
+					
+					// Using setters so set values for the amount.
+					amount.setQuantity(quantityFromJson);
+					amount.setUnit(unit);
+			
+					amountRepo.save(amount);
+					
+					// Using setters to set values for the ingredient.
+					ingredient.setIngredientName(ingredientFromJson);
+					ingredient.setAmount(amount);
+					// Earlier saved recipe for the new ingredient.
+					ingredient.setRecipe(recipe);
+			
+					ingredientRepo.save(ingredient);
+					
+					// If there is not a new ingredient
+				} else {
+					// Find the right ingredient from database.
+					Ingredient ingredient = ingredientRepo.findById(ingredients.get(i).getAsJsonObject().get("ingredientId").getAsLong()).get();
+					// Find the right amount from database.
+					Amount amount = amountRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("amountId").getAsLong()).get();
+					Unit unit = null;
+					//Gets ingredient from array
+					String ingredientFromJson = ingredients.get(i).getAsJsonObject().get("ingredientName").getAsString();
+					//Gets amount from array
+					String quantityFromJson = ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("quantity").getAsString();
+					
+					// Checking if the unit is an object. 
+					if (ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").isJsonObject()) {
+						// Checking if a unitId does not equal -1L.
+						if (ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong() != -1L) {
+							// Find category by unitId.
+							unit = unitRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong()).get();
+						} else {
+							// Else set empty value from database for unit.
+							unit = unitRepo.findByUnit("None");
+						}
+					} else {
+						// Else set empty value from database for unit.
+						unit = unitRepo.findByUnit("None");
+					}
+
+					
+					// Checking if values are blank. If they're blank, there is no need to save them.
+					if (ingredientFromJson.isBlank() && quantityFromJson.isBlank()) {
+						continue;					
+					} 
+					
+					// Using setters so set values for the amount.
+					amount.setQuantity(quantityFromJson);
+					amount.setUnit(unit);
+			
+					amountRepo.save(amount);
+					
+					// Using setters to set values for the ingredient.
+					ingredient.setIngredientName(ingredientFromJson);
+					ingredient.setAmount(amount);
+					// Earlier saved recipe for the new ingredient.
+					ingredient.setRecipe(recipe);
+			
+					ingredientRepo.save(ingredient);				
+					
+				}
+				
+			}
+			
+		} catch (JsonParseException e) {
+			System.err.println(e);
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+	}
+	
+	
 }
