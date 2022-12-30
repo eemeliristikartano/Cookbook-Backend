@@ -2,6 +2,10 @@ package com.cookbook.cookbookdatabase.domain;
 
 import java.util.List;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+@RestResource(exported = false)
 @Entity(name = "users")
 public class User {
 	
@@ -21,6 +26,7 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private String username;
 	
+	@JsonIgnore
 	@Column(nullable = false)
 	private String password;
 	
