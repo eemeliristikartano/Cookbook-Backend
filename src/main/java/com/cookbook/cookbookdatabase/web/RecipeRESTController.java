@@ -30,7 +30,7 @@ import com.google.gson.JsonParser;
 @RestController
 @CrossOrigin
 public class RecipeRESTController {
-	
+		
 	@Autowired
 	private RecipeRepository recipeRepo;
 	
@@ -58,6 +58,9 @@ public class RecipeRESTController {
 		return recipeRepo.findAll();
 	}
 	
+	/*
+	 * Deleted ingredient from database by id.
+	 */
 	
 	@PostMapping(value = "/deleterecipe")
 	public @ResponseBody void deleteRecipe(@RequestBody Long recipeId) {
@@ -206,7 +209,11 @@ public class RecipeRESTController {
 			JsonArray ingredients = jsonRecipe.get("ingredients").getAsJsonArray();
 			// Looping through the ingredients.
 			for (int i = 0; i < ingredients.size(); i++) {
-				// If there is a new ingredient
+				
+				/*
+				 * If the ingredient is new.
+				 */
+				
 				if (ingredients.get(i).getAsJsonObject().get("ingredientId").getAsLong() == -1L) {
 					Ingredient ingredient = new Ingredient();
 					Amount amount = new Amount();
@@ -251,7 +258,10 @@ public class RecipeRESTController {
 			
 					ingredientRepo.save(ingredient);
 					
-					// If there is not a new ingredient
+					/*
+					 * If the ingredient is not new. 
+					 */
+					
 				} else {
 					// Find the right ingredient from database.
 					Ingredient ingredient = ingredientRepo.findById(ingredients.get(i).getAsJsonObject().get("ingredientId").getAsLong()).get();
@@ -306,8 +316,7 @@ public class RecipeRESTController {
 			System.err.println(e);
 		} catch (Exception e) {
 			System.err.println(e);
-		}
-		
+		}	
 	}
 	
 	
