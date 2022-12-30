@@ -77,7 +77,7 @@ public class CookbookdatabaseApplication {
 			
 			//Generating testdata with for loops.
 			Random rand = new Random();
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 20; i++) {
 				String recipeName = "exampleRecipe" + Integer.toString(i + 1);
 				//                                         Random instruction from instructions list.            Random created date.                              Random edited date.                                             Random user from users list.               Random category from categories list.
 				Recipe recipe = new Recipe(recipeName, instructions.get(rand.nextInt(instructions.size() - 1)), LocalDateTime.now().minusDays(rand.nextLong(30)), LocalDateTime.now().plusDays(rand.nextLong(30)), "example.com", users.get(rand.nextInt(users.size() - 1)), categories.get(rand.nextInt(categories.size() - 1)));
