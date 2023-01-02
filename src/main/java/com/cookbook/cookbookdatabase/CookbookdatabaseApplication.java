@@ -69,12 +69,7 @@ public class CookbookdatabaseApplication {
 			Unit emptyUnit = new Unit("None");
 			List<Unit> units = List.of(dl, tl, l, g, emptyUnit);
 			unitRepo.saveAll(units);
-					
-			//First example recipe
-			Recipe testRecipe = new Recipe("Test", "Testing", LocalDateTime.now(), LocalDateTime.now().plusDays(14), "example.com", userAdam, emptyCategory);
-			recipeRepo.save(testRecipe);
-			ingredientRepo.save(new Ingredient("tee", new Amount("2", g), testRecipe));
-			
+						
 			//Generating testdata with for loops.
 			Random rand = new Random();
 			for (int i = 0; i < 20; i++) {
