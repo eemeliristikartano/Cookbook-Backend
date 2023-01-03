@@ -44,12 +44,12 @@ public class CookbookdatabaseApplication {
 			List<String> amounts = List.of("1", "2", "500", "3", "400", "800", "1/2");
 			
 			//Test users
-			User userAdam = new User("Adam", "password");
-			User userJohn = new User("John", "password");
-			User userMike = new User("Mike", "password");
-			User userOlivia = new User("Olivia", "password");
-			User userEmma = new User("Emma", "password");
-			User userAva = new User("Ava", "password");
+			User userAdam = new User("Adam", "$2a$10$HDlTnxavfJyYM1ymWHf9wOAPMYymJK2CyJXeG18SF.Xpt2/GwvyBy", "USER");
+			User userJohn = new User("John", "$2a$10$HDlTnxavfJyYM1ymWHf9wOAPMYymJK2CyJXeG18SF.Xpt2/GwvyBy", "USER");
+			User userMike = new User("Mike", "$2a$10$HDlTnxavfJyYM1ymWHf9wOAPMYymJK2CyJXeG18SF.Xpt2/GwvyBy", "USER");
+			User userOlivia = new User("Olivia", "$2a$10$HDlTnxavfJyYM1ymWHf9wOAPMYymJK2CyJXeG18SF.Xpt2/GwvyBy", "USER");
+			User userEmma = new User("Emma", "$2a$10$HDlTnxavfJyYM1ymWHf9wOAPMYymJK2CyJXeG18SF.Xpt2/GwvyBy", "USER");
+			User userAva = new User("Ava", "$2a$10$HDlTnxavfJyYM1ymWHf9wOAPMYymJK2CyJXeG18SF.Xpt2/GwvyBy", "USER");
 			List<User> users = List.of(userAdam, userJohn, userMike, userOlivia, userEmma, userAva);
 			userRepo.saveAll(users);
 			
