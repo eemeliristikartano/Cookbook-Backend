@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import com.cookbook.cookbookdatabase.domain.Recipe;
 import com.cookbook.cookbookdatabase.domain.RecipeRepository;
 import com.cookbook.cookbookdatabase.domain.Unit;
 import com.cookbook.cookbookdatabase.domain.UnitRepository;
+import com.cookbook.cookbookdatabase.domain.User;
 import com.cookbook.cookbookdatabase.domain.UserRepository;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -59,6 +61,17 @@ public class RecipeRESTController {
 	}
 	
 	/*
+	 * User's own recipes.
+	 */
+	
+	@GetMapping(value = "/userrecipes")
+	public @ResponseBody Iterable<Recipe> getUserRecipes() {
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepo.findByUsername(username).get();
+		return recipeRepo.findByUser(user);
+	}
+	
+	/*
 	 * Deleted ingredient from database by id.
 	 */
 	
@@ -83,16 +96,15 @@ public class RecipeRESTController {
 			//Empty object for recipe.
 			Recipe recipe = new Recipe();
 			//Using setters to set values to the new recipe.
-			//:TODO User is randomized for now. Later it should be a real user from a client side.
-			recipe.setUser(userRepo.findById(rand.nextLong(5)).get());
+			String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User user = userRepo.findByUsername(username).get();
+			recipe.setUser(user);
 			recipe.setRecipeName(jsonRecipe.get("recipeName").getAsString());
 			
 			recipe.setInstructions(jsonRecipe.get("instructions").getAsString());
 			recipe.setSource(jsonRecipe.get("source").getAsString());
 			recipe.setDateCreated(LocalDateTime.now());
-			
-			//:TODO There should be an empty value in database for an unit to prevent null-values.
-			
+						
 			// Checking if the category is an object. 
 			if (jsonRecipe.get("category").isJsonObject()) {
 				// Checking if a categoryId does not equal -1L.
