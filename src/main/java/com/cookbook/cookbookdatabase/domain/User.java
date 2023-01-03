@@ -26,6 +26,9 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private String username;
 	
+	@Column(nullable = false)
+	private String role;
+	
 	@JsonIgnore
 	@Column(nullable = false)
 	private String password;
@@ -35,10 +38,11 @@ public class User {
 	
 	public User() {}
 
-	public User(String username, String password) {
+	public User(String username, String password, String role) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.role = role;
 	}
 
 	public Long getUserId() {
@@ -55,6 +59,15 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getPassword() {
