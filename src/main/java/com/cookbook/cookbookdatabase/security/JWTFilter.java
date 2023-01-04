@@ -27,18 +27,22 @@ public class JWTFilter extends OncePerRequestFilter {
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		// Token from headers.
 		String authHeader = request.getHeader("Authorization");
 		if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")) {
+			// Substring to get only the token.
 			String jwt = authHeader.substring(7);
 			if (jwt == null || jwt.isBlank()) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT Token");
 			} else {
 				try {
+					// Validate token and get the user's username.
 					String username = jwtUtil.validateTokenAndRetrieveSubject(jwt);
+					// Get user's details. Password and role.
 					UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 					UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
-					
 					if (SecurityContextHolder.getContext().getAuthentication() == null) {
+						// Set authentication.
 						SecurityContextHolder.getContext().setAuthentication(authToken);
 					}
 				} catch (JWTVerificationException exc) {

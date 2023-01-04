@@ -3,8 +3,6 @@ package com.cookbook.cookbookdatabase.web;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.naming.AuthenticationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,10 @@ import com.cookbook.cookbookdatabase.security.JWTUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/*
+ * Controller for handling logging in and registering a new account.
+ */
+
 @RestController
 @CrossOrigin
 public class AuthRESTController {
@@ -39,7 +41,6 @@ public class AuthRESTController {
 	@PostMapping(value = "/register")
 	public Map<String, Object> registerHandler(@RequestBody String newUserCredientals) {
 		User newUser = new User();
-		//System.err.println(user.getPassword());
 		JsonObject credientals = JsonParser.parseString(newUserCredientals).getAsJsonObject();
 		String password = credientals.get("password").getAsString();
 		String encodedPassword = new BCryptPasswordEncoder().encode(password);
@@ -56,10 +57,13 @@ public class AuthRESTController {
 		try {
 			UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword());
 			
+			// Attempts to authenticate the passed Authentication object
 			authManager.authenticate(authInputToken);
 			
-			String token = jwtUtil.generateToken(body.getUsername()); // Generates token.
+			// Generates token.
+			String token = jwtUtil.generateToken(body.getUsername()); 
 			
+			// Returns token inside the headers to the front.
 			return ResponseEntity.ok()
 					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 					.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")

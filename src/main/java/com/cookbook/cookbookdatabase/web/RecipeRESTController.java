@@ -1,7 +1,6 @@
 package com.cookbook.cookbookdatabase.web;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -87,7 +86,6 @@ public class RecipeRESTController {
 	
 	@PostMapping(value = "/saverecipe")
 	public @ResponseBody void saveNewRecipe(@RequestBody String recipeFromFront) {
-		Random rand = new Random();
 		try {
 			//Parses jsonobject from a string.
 			JsonObject jsonRecipe = JsonParser.parseString(recipeFromFront).getAsJsonObject();
@@ -174,7 +172,7 @@ public class RecipeRESTController {
 			
 		} catch (JsonParseException e) {
 			// TODO: handle exception
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
 			// TODO: handle exception
 		}
 	}
@@ -190,11 +188,10 @@ public class RecipeRESTController {
 			JsonObject jsonRecipe = JsonParser.parseString(recipeFromFront).getAsJsonObject();
 			Category category = null;
 			
-			//Empty object for recipe.
+			// Find the right recipe from database.
 			Recipe recipe = recipeRepo.findById(jsonRecipe.get("recipeId").getAsLong()).get();
-			//Using setters to set values to the new recipe.
+			//Using setters to set values to the recipe.
 			recipe.setRecipeName(jsonRecipe.get("recipeName").getAsString());
-			
 			recipe.setInstructions(jsonRecipe.get("instructions").getAsString());
 			recipe.setSource(jsonRecipe.get("source").getAsString());
 			recipe.setDateEdited(LocalDateTime.now());
@@ -206,11 +203,11 @@ public class RecipeRESTController {
 					// Find category by categoryId.
 					category = categoryRepo.findById(jsonRecipe.get("category").getAsJsonObject().get("categoryId").getAsLong()).get();
 				} else {
-					// Else set empty value from database for category.
+					// Else set None value from database for category.
 					category = categoryRepo.findByName("None");
 				}
 			} else {
-				// Else set empty value from database for category.
+				// Else set None value from database for category.
 				category = categoryRepo.findByName("None");
 			}
 			
@@ -242,11 +239,11 @@ public class RecipeRESTController {
 							// Find category by unitId.
 							unit = unitRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong()).get();
 						} else {
-							// Else set empty value from database for unit.
+							// Else set None value from database for unit.
 							unit = unitRepo.findByUnit("None");
 						}
 					} else {
-						// Else set empty value from database for unit.
+						// Else set None value from database for unit.
 						unit = unitRepo.findByUnit("None");
 					}
 
@@ -292,11 +289,11 @@ public class RecipeRESTController {
 							// Find category by unitId.
 							unit = unitRepo.findById(ingredients.get(i).getAsJsonObject().get("amount").getAsJsonObject().get("unit").getAsJsonObject().get("unitId").getAsLong()).get();
 						} else {
-							// Else set empty value from database for unit.
+							// Else set None value from database for unit.
 							unit = unitRepo.findByUnit("None");
 						}
 					} else {
-						// Else set empty value from database for unit.
+						// Else set None value from database for unit.
 						unit = unitRepo.findByUnit("None");
 					}
 

@@ -24,17 +24,21 @@ public class JWTUtil {
 	 * Generates token.
 	 */
 	
-	
 	public String generateToken(String username) throws IllegalArgumentException, JWTCreationException {
 		return JWT.create()
 				.withSubject("User details")
 				.withClaim("username", username)
 				.withIssuedAt(new Date())
 				.withIssuer("cookbook")
-				.sign(Algorithm.HMAC256(secret));
+				.sign(Algorithm.HMAC256(secret)); // Creates a new JWT and signs it.
 	}
 	
+	/*
+	 * Validates token.
+	 */
+	
 	public String validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
+		// Verify JWT for it signature and claims.
 		JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
 				.withSubject("User details")
 				.withIssuer("cookbook")
