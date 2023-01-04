@@ -3,6 +3,7 @@ Backend for my personal Cookbook-project. Link to the application below. Please 
 
 https://eemeliristikartano.github.io/Cookbook-Frontend
 
+Cookbook-Frontend repository: https://github.com/eemeliristikartano/Cookbook-Frontend
 
  Cookbook is a web application where authenticated user can:
  - Create a new recipe
