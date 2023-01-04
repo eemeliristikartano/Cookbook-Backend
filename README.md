@@ -5,7 +5,7 @@ https://eemeliristikartano.github.io/Cookbook-Frontend
 
 Cookbook-Frontend repository: https://github.com/eemeliristikartano/Cookbook-Frontend
 
- Cookbook is a web application where authenticated user can:
+ ## Cookbook is a web application where authenticated user can:
  - Create a new recipe
  - Update excisting recipe
  - Read recipes
@@ -14,11 +14,11 @@ Cookbook-Frontend repository: https://github.com/eemeliristikartano/Cookbook-Fro
 Non-authenticated user can:
  - Read recipes.
  
-Backend
+## Backend
 - Java
 - Spring Boot
 
-Frontend
+## Frontend
  - TypeScript
  - React
  
