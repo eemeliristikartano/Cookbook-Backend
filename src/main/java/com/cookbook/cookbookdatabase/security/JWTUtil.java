@@ -18,7 +18,9 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 public class JWTUtil {
 	
 	// Secret key
-	static final String secret = System.getenv().get("MY_SECRET");
+	static final String SECRET = System.getenv().get("MY_SECRET");
+	// Expiration time for token
+	static final long EXPIRATIONTIME = Long.parseLong(System.getenv().get("EXPIRATION_TIME"));
 	
 	/*
 	 * Generates token.
@@ -30,7 +32,8 @@ public class JWTUtil {
 				.withClaim("username", username)
 				.withIssuedAt(new Date())
 				.withIssuer("cookbook")
-				.sign(Algorithm.HMAC256(secret)); // Creates a new JWT and signs it.
+				.withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATIONTIME )) // Expiration time for token.
+				.sign(Algorithm.HMAC256(SECRET)); // Creates a new JWT and signs it.
 	}
 	
 	/*
@@ -39,7 +42,7 @@ public class JWTUtil {
 	
 	public String validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
 		// Verify JWT for it signature and claims.
-		JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
+		JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET))
 				.withSubject("User details")
 				.withIssuer("cookbook")
 				.build();
