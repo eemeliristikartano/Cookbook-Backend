@@ -78,7 +78,7 @@ public class CookbookdatabaseApplication {
 				Recipe recipe = new Recipe(recipeName, instructions.get(rand.nextInt(instructions.size() - 1)), LocalDateTime.now().minusDays(rand.nextLong(30)), LocalDateTime.now().plusDays(rand.nextLong(30)), "example.com", users.get(rand.nextInt(users.size() - 1)), categories.get(rand.nextInt(categories.size() - 1)));
 				recipeRepo.save(recipe);
 				//Random amount of ingredients per recipe.
-				for (int y = 0; i < rand.nextInt(20); y++) {
+				for (int y = 0; y < rand.nextInt(30); y++) {
 					//                                       Random ingredient from ingredients list
 					Ingredient ingredient = new Ingredient(ingredients.get(rand.nextInt(ingredients.size() - 1)), null, recipe);
 					ingredientRepo.save(ingredient);
