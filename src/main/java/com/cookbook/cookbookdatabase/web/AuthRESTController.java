@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.cookbook.cookbookdatabase.domain.LoginCredentials;
 import com.cookbook.cookbookdatabase.domain.User;
 import com.cookbook.cookbookdatabase.domain.UserRepository;
 import com.cookbook.cookbookdatabase.security.JWTUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 /*
  * Controller for handling logging in and registering a new account.
@@ -38,6 +41,7 @@ public class AuthRESTController {
 	@Autowired
 	private AuthenticationManager authManager;
 	
+	// TODO: Add validations and check if the username already exist.
 	@PostMapping(value = "/register")
 	public Map<String, Object> registerHandler(@RequestBody String newUserCredientals) {
 		User newUser = new User();
