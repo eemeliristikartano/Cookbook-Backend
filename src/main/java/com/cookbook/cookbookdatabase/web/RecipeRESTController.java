@@ -190,6 +190,16 @@ public class RecipeRESTController {
 			
 			// Find the right recipe from database.
 			Recipe recipe = recipeRepo.findById(jsonRecipe.get("recipeId").getAsLong()).get();
+			
+			// Find the user who is trying to update recipe.
+			String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User user = userRepo.findByUsername(username).get();
+			
+			// Checking if the user is creator of the recipe. If not, rest of the code is not executed.
+			if (!recipe.getUser().getUserId().equals(user.getUserId())) {
+				return;
+			}
+			
 			//Using setters to set values to the recipe.
 			recipe.setRecipeName(jsonRecipe.get("recipeName").getAsString());
 			recipe.setInstructions(jsonRecipe.get("instructions").getAsString());
