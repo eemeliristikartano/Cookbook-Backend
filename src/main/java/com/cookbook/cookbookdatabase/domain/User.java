@@ -85,5 +85,4 @@ public class User {
 	public void setRecipes(List<Recipe> recipes) {
 		this.recipes = recipes;
 	}
-	
 }
