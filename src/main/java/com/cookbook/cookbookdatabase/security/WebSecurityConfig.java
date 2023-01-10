@@ -41,6 +41,7 @@ public class WebSecurityConfig {
 	            .requestMatchers(new AntPathRequestMatcher("/login")).permitAll() // Endpoint is allowed without authentication.
 	            .requestMatchers(new AntPathRequestMatcher("/units")).permitAll() // Endpoint is allowed without authentication.
 	            .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll() // Endpoint is allowed without authentication.
+	            .requestMatchers(new AntPathRequestMatcher("/reset")).permitAll() // Endpoint is allowed without authentication.
 	            .anyRequest().authenticated()) // All the other endpoints need authentication.
 		.userDetailsService(userDetailsService)
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
