@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 public class NewUserValidation {
 	
 	@NotBlank
-	@Size(min = 4, max = 20)
+	@Size(min = 5, max = 20)
 	private String username = "";
 	
 	@NotBlank
