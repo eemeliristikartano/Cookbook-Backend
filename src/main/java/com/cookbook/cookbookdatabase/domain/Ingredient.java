@@ -72,5 +72,4 @@ public class Ingredient {
 	public void setAmount(Amount amount) {
 		this.amount = amount;
 	}
-
 }
